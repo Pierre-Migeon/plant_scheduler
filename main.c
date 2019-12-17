@@ -256,7 +256,7 @@ int	parse_json(char **line, int fd)
 	return(get_water_days(out));
 }
 
-t_llist	*new_node(char *str)
+t_llist	*new_node(char *str, int val)
 {
 	t_llist *new;
 
@@ -264,6 +264,10 @@ t_llist	*new_node(char *str)
 		exit(0);
 	new->plant = ft_strdup(str);
 	new->next = NULL;
+	if (val == 14)
+		new->biweekly = 1;
+	else
+		new->biweekly = 0;
 	return (new);
 }
 
@@ -286,7 +290,6 @@ void	set_to_null(t_llist **hashtable)
 		hashtable[i] = NULL;
 }
 
-
 t_llist **get_json_data(int fd)
 {
 	t_llist 	**hashtable;
@@ -303,7 +306,7 @@ t_llist **get_json_data(int fd)
 		while ((i[1] = get_days(i[0], i[2])) > -1)
 		{
 			i[2] = 0;
-			node = new_node(line);
+			node = new_node(line, i[0]);
 			if (hashtable[i[1]])
 			{
 				node->next = hashtable[i[1]];
@@ -312,7 +315,7 @@ t_llist **get_json_data(int fd)
 			else
 				hashtable[i[1]] = node;
 		}
-		//free(line);
+		free(line);
 	}
 	return (hashtable);
 }

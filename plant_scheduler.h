@@ -17,6 +17,7 @@
 
 typedef struct          s_llist
 {
+	int		biweekly;
         char		*plant;
         struct s_llist	*next;
 }			t_llist;
@@ -26,6 +27,7 @@ typedef struct  s_date
         int     year;
         int     month;
         int     day;
+	int	wday;
 }               t_date;
 
 void	calendar_module(int offset, t_llist **days);

@@ -45,25 +45,47 @@ int determineleapyear(int year)
 	}
 }
 
-int	print_plant_line(int day, t_llist **days, int offset)
+int	print_plant_line(int day, t_llist **days, int offset, int monday)
 {
-	static int 	hits = -1;
+	static int 	hits = -2;
 	t_llist 	*head;
 	int		i;
+	char *bullet = "\u2022";
+	if (day == 7)
+		day = 0;
 
 	i = 0;
-	++hits;
+	hits += 2;
 	head = days[day];
 	while(head)
 	{
 		if (i == hits)
 		{
 			if (offset == 0)
-				printf ("                                          \u2022 %s", head->plant);
+			{
+				if ((head->biweekly == 1 && monday) || head->biweekly == 0)
+					printf ("                                          \u2022 %s", head->plant);
+				if (head->next && ((head->biweekly == 1 && monday) ||head->biweekly == 0))
+					printf (" %15s %s", bullet, head->next->plant);
+			}
 			else if (offset == 1)
-				printf ("       \u2022 %s\n", head->plant);
+			{
+				if ((head->biweekly == 1 && monday) || head->biweekly == 0)
+					printf ("       \u2022 %s", head->plant);
+				if (head->next && ((head->biweekly == 1 && monday) ||head->biweekly == 0))
+                                        printf (" %15s %s\n", bullet, head->next->plant);
+				else
+					printf ("\n");
+			}
 			else if (offset == 2)
-				printf ("         \u2022 %s\n ", head->plant);
+			{
+				if ((head->biweekly == 1 && monday) || head->biweekly == 0)
+					printf ("         \u2022 %s", head->plant);
+				if (head->next && ((head->biweekly == 1 && monday) ||head->biweekly == 0))
+					printf ("%15s %s\n ", bullet, head->next->plant);
+				else
+					printf ("\n ");
+			}
 			if (head->next)
 				return (1);
 			return (0);
@@ -78,10 +100,38 @@ int	print_plant_line(int day, t_llist **days, int offset)
 	return (0);
 }
 
+int	even_week_since_jan_1st(int daycode, t_date *current)
+{
+	int weeks = 0;
+	int month;
+	int day;
+
+      	for (month = 1; month <= 12; month++)
+        {
+		for ( day = 1; day <= 1 + daycode * 5; day++ )
+                	;
+               	// Print all the dates for one month
+                for ( day = 1; day <= days_in_month[month]; day++ )
+                {
+                	if (month == current->month && day == current->day)
+				return (weeks % 2);
+                        // Is day before Sat? Else start next line Sun.
+                        if ( ( day + daycode ) % 7 > 0 )
+                        	;
+                        else
+				weeks++;
+                }
+        // Set position for next month
+       	daycode = ( daycode + days_in_month[month] ) % 7;
+	}
+	return (0);
+}
+
 void calendar(int daycode, t_date *current, t_llist **days)
 {
 	int	month;
 	int	day;
+	int 	monday = even_week_since_jan_1st(daycode, current);
 
 	for (month = 1; month <= 12; month++)
 	{
@@ -89,9 +139,9 @@ void calendar(int daycode, t_date *current, t_llist **days)
 		{
 			printf("%s", months[month]);
 			printf("                                  Plants To Water Today:\n                                         ------------------------\n");
-			print_plant_line(4, days, 0);
+			print_plant_line(current->wday, days, 0, monday);
 			printf("\nSun  Mon  Tue  Wed  Thu  Fri  Sat  ");
-			print_plant_line(4, days, 1);
+			print_plant_line(current->wday, days, 1, monday);
 			// Correct the position for the first date
 			for ( day = 1; day <= 1 + daycode * 5; day++ )
 				printf(" ");
@@ -106,7 +156,7 @@ void calendar(int daycode, t_date *current, t_llist **days)
 				if ( ( day + daycode ) % 7 > 0 )
 					printf("   ");
 				else
-					print_plant_line(4, days, 2);
+					print_plant_line(current->wday, days, 2, monday);
 			}
 		}
 		// Set position for next month
@@ -143,9 +193,9 @@ t_date *get_date(int offset)
 	current->year = tm.tm_year + 1900;
 	current->month = tm.tm_mon + 1;
 	current->day = tm.tm_mday + offset;
+	current->wday = tm.tm_wday + (offset % 7);
 	if (current->day > days_in_month[current->month])
-		adjust_offset(current);
-	
+		adjust_offset(current);	
 	return (current);
 }
 

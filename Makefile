@@ -8,3 +8,4 @@ debug:
 	gcc -g main.c calendar_module.c -o plant_scheduler
 clean:
 	rm ./plant_scheduler
+	rm -rf ./plant_scheduler.dSYM/
