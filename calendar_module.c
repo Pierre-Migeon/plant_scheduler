@@ -65,14 +65,14 @@ int	print_plant_line(int day, t_llist **days, int offset, int monday)
 			{
 				if ((head->biweekly == 1 && monday) || head->biweekly == 0)
 					printf ("                                          \u2022 %s", head->plant);
-				if (head->next && ((head->biweekly == 1 && monday) ||head->biweekly == 0))
+				if (head->next && ((head->next->biweekly == 1 && monday) || head->next->biweekly == 0))
 					printf (" %15s %s", bullet, head->next->plant);
 			}
 			else if (offset == 1)
 			{
 				if ((head->biweekly == 1 && monday) || head->biweekly == 0)
 					printf ("       \u2022 %s", head->plant);
-				if (head->next && ((head->biweekly == 1 && monday) ||head->biweekly == 0))
+				if (head->next && ((head->next->biweekly == 1 && monday) ||head->next->biweekly == 0))
                                         printf (" %15s %s\n", bullet, head->next->plant);
 				else
 					printf ("\n");
@@ -81,7 +81,7 @@ int	print_plant_line(int day, t_llist **days, int offset, int monday)
 			{
 				if ((head->biweekly == 1 && monday) || head->biweekly == 0)
 					printf ("         \u2022 %s", head->plant);
-				if (head->next && ((head->biweekly == 1 && monday) ||head->biweekly == 0))
+				if (head->next && ((head->next->biweekly == 1 && monday) ||head->next->biweekly == 0))
 					printf ("%15s %s\n ", bullet, head->next->plant);
 				else
 					printf ("\n ");
@@ -132,6 +132,7 @@ void calendar(int daycode, t_date *current, t_llist **days)
 	int	month;
 	int	day;
 	int 	monday = even_week_since_jan_1st(daycode, current);
+	printf("monday is %i\n", monday);
 
 	for (month = 1; month <= 12; month++)
 	{
