@@ -6,6 +6,7 @@ To use, pull repository, then run make to compile.
 
 ## Usage:
 ```./plant_scheduler [-o n]```
+
 -o is offset. Go forward X number of days in the schedule to see what needs watering then.
 
 ## Features:
