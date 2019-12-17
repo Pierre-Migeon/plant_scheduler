@@ -9,6 +9,9 @@ To use, pull repository, then run make to compile.
 
 -o is offset. Go forward X number of days in the schedule to see what needs watering then.
 
+![example]("https://user-images.githubusercontent.com/8321639/70968785-d3771480-205f-11ea-94cd-a02043ed3260.png")
+
+
 ## Features:
 	* Will warn if json file not found
 	* Will display usage statement if incorrect parameters used
