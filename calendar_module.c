@@ -89,9 +89,9 @@ void calendar(int daycode, t_date *current, t_llist **days)
 		{
 			printf("%s", months[month]);
 			printf("                                  Plants To Water Today:\n                                         ------------------------\n");
-			print_plant_line(1, days, 0);
+			print_plant_line(4, days, 0);
 			printf("\nSun  Mon  Tue  Wed  Thu  Fri  Sat  ");
-			print_plant_line(1, days, 1);
+			print_plant_line(4, days, 1);
 			// Correct the position for the first date
 			for ( day = 1; day <= 1 + daycode * 5; day++ )
 				printf(" ");
@@ -106,7 +106,7 @@ void calendar(int daycode, t_date *current, t_llist **days)
 				if ( ( day + daycode ) % 7 > 0 )
 					printf("   ");
 				else
-					print_plant_line(1, days, 2);
+					print_plant_line(4, days, 2);
 			}
 		}
 		// Set position for next month

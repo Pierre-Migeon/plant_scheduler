@@ -18,7 +18,6 @@
 typedef struct          s_llist
 {
         char		*plant;
-	int		biweekly;
         struct s_llist	*next;
 }			t_llist;
 

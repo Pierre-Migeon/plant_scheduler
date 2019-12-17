@@ -197,6 +197,7 @@ char	*get_plant_name(char *str)
 	char	*out_f;
 
 	flag = 0;
+	bzero(out, 500);
 	while (*str)
 	{
 		if (*str == ':')
@@ -255,21 +256,23 @@ int	parse_json(char **line, int fd)
 	return(get_water_days(out));
 }
 
-t_llist	*new_node(char *str, int value)
+t_llist	*new_node(char *str)
 {
 	t_llist *new;
 
-	new = (t_llist *)malloc(sizeof(t_llist));
+	if(!(new = (t_llist *)malloc(sizeof(t_llist))))
+		exit(0);
 	new->plant = ft_strdup(str);
 	new->next = NULL;
-	new->biweekly = (value > 13) ? 1 : 0;
 	return (new);
 }
 
-int	get_days(int i)
+int	get_days(int i, int reset)
 {
 	static int j = -1;
 
+	if (reset)
+		j = -1;
 	j++;
 	if (1 + i * j < 7)
 		return (1 + i * j);
@@ -277,20 +280,30 @@ int	get_days(int i)
 		return (-1);
 }
 
+void	set_to_null(t_llist **hashtable)
+{
+	for (int i = 0; i < HASH_SIZE; i++)
+		hashtable[i] = NULL;
+}
+
+
 t_llist **get_json_data(int fd)
 {
 	t_llist 	**hashtable;
 	char		*line;
 	t_llist 	*node;
-	int		i[2];
+	int		i[3];
 
 	if (!(hashtable = (t_llist **)malloc(sizeof(t_llist *) * HASH_SIZE)))
 		exit(1);
+	set_to_null(hashtable);
 	while ((i[0] = parse_json(&line, fd)))
 	{
-		while ((i[1] = get_days(i[0])) > -1)
+		i[2] = 1;
+		while ((i[1] = get_days(i[0], i[2])) > -1)
 		{
-			node = new_node(line, i[0]);
+			i[2] = 0;
+			node = new_node(line);
 			if (hashtable[i[1]])
 			{
 				node->next = hashtable[i[1]];
@@ -304,6 +317,7 @@ t_llist **get_json_data(int fd)
 	return (hashtable);
 }
 
+/*
 void	free_table(t_llist **days)
 {
 	int		i;
@@ -324,6 +338,7 @@ void	free_table(t_llist **days)
 		++i;
 	}
 }
+*/
 
 int	main(int argc, char **argv)
 {
@@ -337,6 +352,6 @@ int	main(int argc, char **argv)
 		get_params(argv + 1, &offset);
 	days = get_json_data(fd);
 	calendar_module(offset, days);
-	free_table(days);
+	//free_table(days);
 	return (0);
 }
