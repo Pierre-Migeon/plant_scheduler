@@ -132,7 +132,6 @@ void calendar(int daycode, t_date *current, t_llist **days)
 	int	month;
 	int	day;
 	int 	monday = even_week_since_jan_1st(daycode, current);
-	printf("monday is %i\n", monday);
 
 	for (month = 1; month <= 12; month++)
 	{
