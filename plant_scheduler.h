@@ -3,6 +3,7 @@
 #ifndef PLANT_H
 # define PLANT_H
 
+#include "./libft/libft.h"
 #include <stdio.h>
 #include <dirent.h>
 #include <stdlib.h>

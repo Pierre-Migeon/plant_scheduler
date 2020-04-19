@@ -1,117 +1,5 @@
 #include "plant_scheduler.h"
 
-size_t	ft_strlen(const char *s)
-{
-	size_t length;
-
-	length = 0;
-	if (!*s)
-		return (0);
-	while (s[length])
-		length++;
-	return (length);
-}
-
-char	*ft_strcat(char *s1, const char *s2)
-{
-	int i;
-	int j;
-
-	i = 0;
-	j = 0;
-	while (s1[i])
-		i++;
-	while (s2[j])
-		s1[i++] = s2[j++];
-	s1[i] = '\0';
-	return (s1);
-}
-
-char	*ft_strcpy(char *dst, char *src)
-{
-	int i;
-
-	i = 0;
-	while (*src)
-		dst[i++] = *(src++);
-	dst[i] = '\0';
-	return (dst);
-}
-
-char	*ft_strdup(char *s1)
-{
-	int	i;
-	char	*s2;
-
-	while (s1[i])
-		++i;
-	if (!(s2 = (char *)malloc(++i * sizeof(char))))
-		return (NULL);
-	i = 0;
-	while (s1[i])
-	{
-		s2[i] = s1[i];
-		i++;
-	}
-	s2[i] = '\0';
-	return (s2);
-}
-
-char	*ft_strchr(char *s, int c)
-{
-	size_t i;
-
-	i = -1;
-	while (++i < ft_strlen(s) + 1)
-		if (s[i] == (char)c)
-			return ((char *)s + i);
-	return (NULL);
-}
-
-int	ft_strcmp(const char *s1, const char *s2)
-{
-	while (*s1 && *s2 && *s1 == *s2)
-	{
-		s1++;
-		s2++;
-	}
-	return ((unsigned char)*s1 - (unsigned char)*s2);
-}
-
-char	*ft_strjoin(char *s1, char *s2)
-{
-	char	*merge;
-	size_t	len;
-
-	if (s1 == NULL || s2 == NULL)
-		return (NULL);
-	len = ft_strlen(s1);
-	len += ft_strlen(s2);
-	if (!(merge = (char *)malloc(sizeof(char) * len)))
-		return (NULL);
-	ft_strcpy(merge, s1);
-	ft_strcat(merge, s2);
-	return (merge);
-}
-
-int		ft_atoi(const char *str)
-{
-	int integer;
-	int neg;
-
-	integer = 0;
-	neg = 1;
-	while (*str == ' ' || (*str >= 9 && *str <= 13))
-		str++;
-	if (*str == '-')
-		neg = -1;
-	if (*str == '+' || *str == '-')
-		str++;
-	while (*str >= '0' && *str <= '9')
-		integer = integer * 10 + (*(str++) - '0');
-	return (neg == -1 ? -integer : integer);
-}
-
 int	end_match(char *s1, char *suffix)
 {
 	size_t len_1;
@@ -210,11 +98,6 @@ char	*get_plant_name(char *str)
 	}
 	out[flag - 1] = '\0';
 	return (ft_strdup(out + 3));
-}
-
-int	ft_isdigit(char c)
-{
-	return (c >= '0' && c <= '9');
 }
 
 int	get_water_days(char *str)

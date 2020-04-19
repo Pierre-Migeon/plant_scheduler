@@ -177,8 +177,8 @@ void	adjust_offset(t_date *current)
                         current->year++; 
                         determineleapyear(current->year);
                         current->month = 1;
-                }
-        }
+        	}
+	}
 }
 
 t_date *get_date(int offset)
