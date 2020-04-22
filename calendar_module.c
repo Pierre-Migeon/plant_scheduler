@@ -45,10 +45,10 @@ int determineleapyear(int year)
 	}
 }
 
-int	print_plant_line(int day, t_llist **days, int offset, int monday)
+int	print_plant_line(int day, t_hasht **days, int offset, int monday)
 {
 	static int 	hits = -2;
-	t_llist 	*head;
+	t_hasht 	*head;
 	int		i;
 	char *bullet = "\u2022";
 	if (day == 7)
@@ -127,7 +127,7 @@ int	even_week_since_jan_1st(int daycode, t_date *current)
 	return (0);
 }
 
-void calendar(int daycode, t_date *current, t_llist **days)
+void calendar(int daycode, t_date *current, t_hasht **days)
 {
 	int	month;
 	int	day;
@@ -199,7 +199,7 @@ t_date *get_date(int offset)
 	return (current);
 }
 
-void	calendar_module(int offset, t_llist **days)
+void	calendar_module(int offset, t_hasht **days)
 {
 	int daycode;
 	t_date	*current;

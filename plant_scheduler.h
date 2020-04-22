@@ -16,12 +16,13 @@
 
 # define HASH_SIZE 7
 
-typedef struct          s_llist
+typedef struct		s_hasht
 {
 	int		biweekly;
+	int		water_every;
         char		*plant;
-        struct s_llist	*next;
-}			t_llist;
+        struct s_hasht	*next;
+}			t_hasht;
 
 typedef struct  s_date
 {
@@ -31,11 +32,28 @@ typedef struct  s_date
 	int	wday;
 }               t_date;
 
-void	calendar_module(int offset, t_llist **days);
+//main
+void    free_table(t_hasht **days);
+void    freenode(t_hasht *node);
+
+//Read parameters
+void	usage(int i);
+void	get_params(char **argv, int *offset);
+
+//JSON
+int	end_match(char *s1, char *suffix);
+int	get_json();
+void	need_json();
+
+//JSON3
+t_hasht	**get_json_data(int fd);
+void    set_to_null(t_hasht **hashtable);
+
+//Calendar
+void	calendar_module(int offset, t_hasht **days);
 t_date	*get_date(int offset);
-void 	calendar(int daycode, t_date *current, t_llist **days);
+void	calendar(int daycode, t_date *current, t_hasht **days);
 int 	determineleapyear(int year);
 int 	determinedaycode(int year);
-
 
 #endif

@@ -1,6 +1,6 @@
 
 LIB = ./libft/libft.a
-SOURCE = ./main.c ./calendar_module.c
+SOURCE = ./main.c parameters.c json.c json2.c ./calendar_module.c 
 OUT = plant_scheduler
 
 make:
@@ -8,9 +8,8 @@ make:
 	@gcc $(SOURCE) $(LIB) -o $(OUT)
 edit:
 	@vi main.c
-simple:
-	@gcc main.c -o plant_scheduler
 debug:
+	@make -C libft
 	@gcc -g $(SOURCE) $(LIB) -o $(OUT)
 
 memcheck: debug
@@ -19,3 +18,5 @@ memcheck: debug
 clean:
 	@rm ./plant_scheduler
 	@if [ -e $(OUT).dSYM ]; then rm -rf $(OUT).dSYM; fi
+fclean: clean
+	@make fclean -C libft
