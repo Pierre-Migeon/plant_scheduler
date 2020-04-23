@@ -181,6 +181,11 @@ void	adjust_offset(t_date *current)
 	}
 }
 
+int	pm_abs(int val)
+{
+	return ((val >= 0) ? val : -val);
+}
+
 t_date *get_date(int offset)
 {
 	t_date *current;
@@ -193,7 +198,7 @@ t_date *get_date(int offset)
 	current->year = tm.tm_year + 1900;
 	current->month = tm.tm_mon + 1;
 	current->day = tm.tm_mday + offset;
-	current->wday = tm.tm_wday + (offset % 7);
+	current->wday = pm_abs((tm.tm_wday + offset) % 7);
 	if (current->day > days_in_month[current->month])
 		adjust_offset(current);	
 	return (current);

@@ -55,7 +55,7 @@ char	*is_schedule(char *line)
                 }
                 while (*compare && (*line == ' ' || *line == '\t'))
                         ++line;
-                if (*compare != *line)
+                if (*compare && *compare != *line)
                 {
                         free(ptr);
                         return (NULL);
@@ -105,7 +105,7 @@ char	*is_plant(char *line)
 		}
 		while (*compare && (*line == ' ' || *line == '\t'))
 			++line;
-		if (*compare != *line)
+		if (*compare && *compare != *line)
 		{
 			free(ptr);
 			return (NULL);
